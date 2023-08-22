@@ -1,0 +1,47 @@
+trigger:
+  - main
+  - develop
+
+pr:
+  - main
+  - develop
+  - feature/*
+
+pool:
+  vmImage: ubuntu-latest
+
+name: oaf_sydent_$(Date:yyyyMMdd)$(Rev:.r)
+
+steps:
+  - task: Docker@2
+    displayName: Login to Azure registry
+    inputs:
+      containerRegistry: azurecr-oaf
+      command: login
+
+  - task: Docker@2
+    displayName: Build custom sydent image
+    inputs:
+      containerRegistry: azurecr-oaf
+      repository: oneacrefund/sydent
+      command: build
+      Dockerfile: ./Dockerfile
+      tags: latest
+
+  - task: Docker@2
+    displayName: push image to registry
+    # Only publish main branch
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    inputs:
+      containerRegistry: azurecr-oaf
+      repository: oneacrefund/sydent
+      command: push
+
+  - task: PublishBuildArtifacts@1
+    displayName: Publish configuration package
+    # Only publish main branch
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: sydent
+      publishLocation: Container

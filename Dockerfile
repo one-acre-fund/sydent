@@ -29,7 +29,7 @@ COPY --chown=sydent:sydent ["README.rst", "pyproject.toml", "poetry.lock", "./"]
 RUN python -m poetry install --no-dev --no-interaction --extras "prometheus sentry"
 
 # Record dependencies for posterity
-RUN python -m poetry export -o requirements.txt
+# RUN python -m poetry export -o requirements.txt
 
 # Make the virtualenv accessible for the final image
 RUN ln -s $(python -m poetry env info -p) /home/sydent/venv

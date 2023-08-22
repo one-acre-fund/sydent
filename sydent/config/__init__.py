@@ -33,7 +33,7 @@ CONFIG_DEFAULTS = {
         "log.path": "",
         "log.level": "INFO",
         "pidfile.path": os.environ.get("SYDENT_PID_FILE", "sydent.pid"),
-        "terms.path": "",
+        "terms.path": os.environ.get("SYDENT_TERMS_PATH", ""),
         "address_lookup_limit": "10000",  # Maximum amount of addresses in a single /lookup request
         # The root path to use for load templates. This should contain branded
         # directories. Each directory should contain the following templates:
@@ -41,7 +41,7 @@ CONFIG_DEFAULTS = {
         # * invite_template.eml
         # * verification_template.eml
         # * verify_response_template.html
-        "templates.path": "res",
+        "templates.path": os.environ.get("SYDENT_TEMPLATES_PATH", "res"),
         # The brand directory to use if no brand hint (or an invalid brand hint)
         # is provided by the request.
         "brand.default": "matrix-org",
@@ -110,12 +110,12 @@ CONFIG_DEFAULTS = {
         "email.subject": "Your Validation Token",
         "email.invite.subject": "%(sender_display_name)s has invited you to chat",
         "email.invite.subject_space": "%(sender_display_name)s has invited you to a space",
-        "email.smtphost": "localhost",
-        "email.smtpport": "25",
-        "email.smtpusername": "",
-        "email.smtppassword": "",
-        "email.hostname": "",
-        "email.tlsmode": "0",
+        "email.smtphost": os.environ.get("SYDENT_SMTP_HOST", "localhost"),
+        "email.smtpport": os.environ.get("SYDENT_SMTP_PORT", "25"),
+        "email.smtpusername": os.environ.get("SYDENT_SMTP_USER", ""),
+        "email.smtppassword": os.environ.get("SYDENT_SMTP_PASSWORD", ""),
+        "email.hostname": os.environ.get("SYDENT_SMTP_HOSTNAME", ""),
+        "email.tlsmode": os.environ.get("SYDENT_TLS_MODE", "0"),
         # The web client location which will be used if it is not provided by
         # the homeserver.
         #

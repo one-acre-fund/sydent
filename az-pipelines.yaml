@@ -36,6 +36,7 @@ steps:
       containerRegistry: azurecr-oaf
       repository: oneacrefund/sydent
       command: push
+      tags: "latest"
 
   - task: PublishBuildArtifacts@1
     displayName: Publish configuration package
